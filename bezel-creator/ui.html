@@ -1,0 +1,1178 @@
+<!doctype html>
+<html>
+    <head>
+        <style>
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            html,
+            body {
+                width: 380px;
+                overflow: hidden;
+                font-family: Inter, sans-serif;
+                background: #2c2c2c;
+                color: #fff;
+                padding: 14px 16px;
+            }
+            h3 {
+                font-size: 11px;
+                color: #888;
+                letter-spacing: 0.08em;
+                margin-bottom: 6px;
+            }
+            .status {
+                font-size: 10px;
+                color: #18a0fb;
+                height: 13px;
+                margin-bottom: 10px;
+            }
+
+            /* Sliders */
+            .slider-row {
+                margin-bottom: 11px;
+            }
+            .slider-header {
+                display: flex;
+                align-items: center;
+                margin-bottom: 4px;
+                font-size: 12px;
+            }
+            .slider-label {
+                flex: 1;
+            }
+            .slider-number {
+                width: 48px;
+                background: transparent;
+                border: none;
+                border-bottom: 1px solid #555;
+                color: #18a0fb;
+                font-weight: 600;
+                font-size: 12px;
+                text-align: right;
+                padding: 0 2px;
+                outline: none;
+                -moz-appearance: textfield;
+            }
+            .slider-number::-webkit-outer-spin-button,
+            .slider-number::-webkit-inner-spin-button {
+                -webkit-appearance: none;
+            }
+            .slider-number:focus {
+                border-bottom-color: #18a0fb;
+            }
+            .slider-unit {
+                font-size: 12px;
+                color: #888;
+                margin-left: 3px;
+                width: 16px;
+            }
+            input[type="range"] {
+                width: 100%;
+                accent-color: #18a0fb;
+                cursor: pointer;
+            }
+
+            /* Buttons */
+            button {
+                width: 100%;
+                padding: 8px;
+                border: none;
+                border-radius: 6px;
+                font-size: 12px;
+                font-weight: 600;
+                cursor: pointer;
+                background: #18a0fb;
+                color: #fff;
+            }
+            button:hover {
+                background: #0d8de0;
+            }
+            button.delete {
+                background: transparent;
+                border: 1px solid #c00;
+                color: #f55;
+            }
+            button.delete:hover {
+                background: #3a0000;
+            }
+            button.secondary {
+                background: #3a3a3a;
+                color: #ccc;
+            }
+            button.secondary:hover {
+                background: #4a4a4a;
+            }
+            button:disabled {
+                background: #3a3a3a !important;
+                color: #666 !important;
+                cursor: not-allowed;
+                border: none !important;
+            }
+
+            .divider {
+                border: none;
+                border-top: 1px solid #444;
+                margin: 12px 0;
+            }
+
+            /* Checkbox */
+            .checkbox-row {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                margin-bottom: 10px;
+                font-size: 12px;
+                font-weight: 600;
+                color: #ccc;
+            }
+            input[type="checkbox"] {
+                accent-color: #18a0fb;
+                width: 14px;
+                height: 14px;
+                cursor: pointer;
+            }
+
+            /* Show/hide */
+            .hidden {
+                display: none !important;
+            }
+
+            /* Preset */
+            .preset-save-row {
+                display: flex;
+                gap: 6px;
+                margin-bottom: 4px;
+                align-items: center;
+            }
+            .preset-name-input {
+                flex: 1;
+                background: #3a3a3a;
+                border: 1px solid #555;
+                border-radius: 6px;
+                color: #fff;
+                font-size: 12px;
+                padding: 5px 8px;
+                outline: none;
+                min-width: 0;
+            }
+            .preset-name-input:focus {
+                border-color: #18a0fb;
+            }
+            .preset-save-row button {
+                flex: 0 0 auto;
+                width: auto;
+                padding: 5px 12px;
+                font-size: 11px;
+            }
+            .preset-status {
+                font-size: 10px;
+                color: #18a0fb;
+                height: 13px;
+                margin-bottom: 8px;
+            }
+            .preset-action-row {
+                display: flex;
+                gap: 6px;
+                align-items: center;
+            }
+            .preset-select {
+                flex: 1;
+                background: #3a3a3a;
+                color: #fff;
+                border: 1px solid #555;
+                border-radius: 6px;
+                padding: 5px 8px;
+                font-size: 12px;
+                cursor: pointer;
+                outline: none;
+            }
+            .preset-select:focus {
+                border-color: #18a0fb;
+            }
+            .preset-delete-btn {
+                width: 28px;
+                height: 28px;
+                flex-shrink: 0;
+                background: transparent;
+                border: 1px solid #555;
+                border-radius: 6px;
+                color: #888;
+                font-size: 14px;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 0;
+            }
+            .preset-delete-btn:hover {
+                border-color: #c00;
+                color: #f55;
+                background: #3a0000;
+            }
+            .preset-delete-btn:disabled {
+                opacity: 0.3;
+                cursor: not-allowed;
+                pointer-events: none;
+            }
+
+            /* Apply popup */
+            .apply-wrapper {
+                position: relative;
+                flex: 0 0 auto;
+            }
+            .apply-btn {
+                width: auto;
+                padding: 5px 12px;
+                font-size: 11px;
+                background: #18a0fb;
+                border: none;
+                border-radius: 6px;
+                color: #fff;
+                font-weight: 600;
+                cursor: pointer;
+            }
+            .apply-btn:hover {
+                background: #0d8de0;
+            }
+            .apply-btn:disabled {
+                background: #3a3a3a !important;
+                color: #666 !important;
+                cursor: not-allowed;
+            }
+            .apply-popup {
+                display: none;
+                position: absolute;
+                bottom: calc(100% + 6px);
+                right: 0;
+                background: #1e1e1e;
+                border: 1px solid #555;
+                border-radius: 8px;
+                padding: 8px;
+                width: 160px;
+                z-index: 100;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            }
+            .apply-popup.open {
+                display: block;
+            }
+            .apply-popup-title {
+                font-size: 10px;
+                color: #888;
+                margin-bottom: 6px;
+                letter-spacing: 0.05em;
+            }
+            .apply-option {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                padding: 6px 8px;
+                border-radius: 6px;
+                cursor: pointer;
+                font-size: 12px;
+                color: #ccc;
+            }
+            .apply-option:hover {
+                background: #2c2c2c;
+                color: #fff;
+            }
+            .apply-option input[type="radio"] {
+                accent-color: #18a0fb;
+                cursor: pointer;
+            }
+            .apply-confirm-btn {
+                width: 100%;
+                margin-top: 6px;
+                padding: 6px;
+                background: #18a0fb;
+                border: none;
+                border-radius: 6px;
+                color: #fff;
+                font-size: 11px;
+                font-weight: 600;
+                cursor: pointer;
+            }
+            .apply-confirm-btn:hover {
+                background: #0d8de0;
+            }
+
+            /* Wheel / shadow extras */
+            .select-row {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                margin-bottom: 11px;
+            }
+            select {
+                flex: 1;
+                background: #3a3a3a;
+                color: #fff;
+                border: 1px solid #555;
+                border-radius: 6px;
+                padding: 5px 8px;
+                font-size: 12px;
+                cursor: pointer;
+            }
+            select:focus {
+                outline: none;
+                border-color: #18a0fb;
+            }
+            .drag-handle {
+                width: 30px;
+                height: 30px;
+                background: #3a3a3a;
+                border: 1px solid #555;
+                border-radius: 6px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: grab;
+                font-size: 15px;
+                user-select: none;
+                flex-shrink: 0;
+            }
+            .drag-handle:active {
+                cursor: grabbing;
+                background: #18a0fb;
+            }
+            .pos-row {
+                display: flex;
+                gap: 8px;
+                margin-bottom: 11px;
+            }
+            .pos-field {
+                flex: 1;
+            }
+            .pos-field span {
+                font-size: 10px;
+                color: #888;
+                display: block;
+                margin-bottom: 3px;
+            }
+            .pos-field input[type="number"] {
+                width: 100%;
+                background: #3a3a3a;
+                color: #fff;
+                border: 1px solid #555;
+                border-radius: 6px;
+                padding: 4px 8px;
+                font-size: 12px;
+                -moz-appearance: textfield;
+            }
+            .pos-field input[type="number"]::-webkit-outer-spin-button,
+            .pos-field input[type="number"]::-webkit-inner-spin-button {
+                -webkit-appearance: none;
+            }
+            .pos-field input[type="number"]:focus {
+                outline: none;
+                border-color: #18a0fb;
+            }
+        </style>
+    </head>
+    <body>
+        <h3>BEZEL SETTINGS</h3>
+        <div class="status" id="status">Select an image layer</div>
+
+        <div class="slider-row">
+            <div class="slider-header">
+                <span class="slider-label">Stroke Weight</span>
+                <input
+                    class="slider-number"
+                    type="number"
+                    id="strokeWeightNum"
+                    value="4"
+                    min="1"
+                    max="100"
+                />
+                <span class="slider-unit">px</span>
+            </div>
+            <input
+                type="range"
+                id="strokeWeight"
+                min="1"
+                max="100"
+                step="1"
+                value="4"
+            />
+        </div>
+
+        <div class="slider-row">
+            <div class="slider-header">
+                <span class="slider-label">Corner Radius</span>
+                <input
+                    class="slider-number"
+                    type="number"
+                    id="cornerRadiusNum"
+                    value="8"
+                    min="0"
+                    max="300"
+                />
+                <span class="slider-unit">px</span>
+            </div>
+            <input
+                type="range"
+                id="cornerRadius"
+                min="0"
+                max="300"
+                step="1"
+                value="8"
+            />
+        </div>
+
+        <!-- No-bezel state -->
+        <div id="noBezelSection">
+            <button id="createBtn" disabled>Select an image</button>
+
+            <div id="presetApplySection" class="hidden">
+                <hr class="divider" />
+                <h3>PRESETS</h3>
+                <div style="height: 8px"></div>
+                <div class="preset-status" id="presetStatusNB"></div>
+                <div class="preset-action-row">
+                    <select class="preset-select" id="presetSelectNB">
+                        <option value="" disabled selected>
+                            — select a preset —
+                        </option>
+                    </select>
+                    <div class="apply-wrapper">
+                        <button class="apply-btn" id="applyBtnNB" disabled>
+                            Apply ▾
+                        </button>
+                        <div class="apply-popup" id="applyPopupNB">
+                            <div class="apply-popup-title">APPLY MODE</div>
+                            <label class="apply-option"
+                                ><input
+                                    type="radio"
+                                    name="applyModeNB"
+                                    value="absolute"
+                                    checked
+                                />
+                                Absolute</label
+                            >
+                            <label class="apply-option"
+                                ><input
+                                    type="radio"
+                                    name="applyModeNB"
+                                    value="scale"
+                                />
+                                Scale to image</label
+                            >
+                            <button
+                                class="apply-confirm-btn"
+                                id="applyConfirmNB"
+                            >
+                                Apply
+                            </button>
+                        </div>
+                    </div>
+                    <button
+                        class="preset-delete-btn"
+                        id="deletePresetBtnNB"
+                        disabled
+                    >
+                        ✕
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Has-bezel state -->
+        <div id="bezelSection" class="hidden">
+            <hr class="divider" />
+            <h3>PRESETS</h3>
+            <div style="height: 8px"></div>
+            <div class="preset-save-row">
+                <input
+                    type="text"
+                    class="preset-name-input"
+                    id="presetName"
+                    placeholder="Preset name"
+                    list="presetDatalist"
+                />
+                <datalist id="presetDatalist"></datalist>
+                <button class="secondary" id="savePresetBtn">Save</button>
+            </div>
+            <div class="preset-status" id="presetStatus"></div>
+            <div class="preset-action-row">
+                <select class="preset-select" id="presetSelect">
+                    <option value="" disabled selected>
+                        — select a preset —
+                    </option>
+                </select>
+                <div class="apply-wrapper">
+                    <button class="apply-btn" id="applyBtn" disabled>
+                        Apply ▾
+                    </button>
+                    <div class="apply-popup" id="applyPopup">
+                        <div class="apply-popup-title">APPLY MODE</div>
+                        <label class="apply-option"
+                            ><input
+                                type="radio"
+                                name="applyMode"
+                                value="absolute"
+                                checked
+                            />
+                            Absolute</label
+                        >
+                        <label class="apply-option"
+                            ><input
+                                type="radio"
+                                name="applyMode"
+                                value="scale"
+                            />
+                            Scale to image</label
+                        >
+                        <button class="apply-confirm-btn" id="applyConfirm">
+                            Apply
+                        </button>
+                    </div>
+                </div>
+                <button class="preset-delete-btn" id="deletePresetBtn" disabled>
+                    ✕
+                </button>
+            </div>
+
+            <hr class="divider" />
+            <button class="delete" id="deleteBezelBtn">Delete Bezel</button>
+
+            <!-- Shadow -->
+            <hr class="divider" />
+            <h3>SHADOW</h3>
+            <div style="height: 8px"></div>
+            <div class="checkbox-row">
+                <input type="checkbox" id="shadowEnabled" />
+                <label for="shadowEnabled" style="cursor: pointer; margin: 0"
+                    >Add Shadow</label
+                >
+            </div>
+            <div id="shadowControls" class="hidden">
+                <div class="slider-row">
+                    <div class="slider-header">
+                        <span class="slider-label">Opacity</span>
+                        <input
+                            class="slider-number"
+                            type="number"
+                            id="shadowOpacityNum"
+                            value="50"
+                            min="0"
+                            max="100"
+                        />
+                        <span class="slider-unit">%</span>
+                    </div>
+                    <input
+                        type="range"
+                        id="shadowOpacity"
+                        min="0"
+                        max="100"
+                        step="1"
+                        value="50"
+                    />
+                </div>
+                <div class="slider-row">
+                    <div class="slider-header">
+                        <span class="slider-label">Blur</span>
+                        <input
+                            class="slider-number"
+                            type="number"
+                            id="shadowBlurNum"
+                            value="10"
+                            min="0"
+                            max="100"
+                        />
+                        <span class="slider-unit">px</span>
+                    </div>
+                    <input
+                        type="range"
+                        id="shadowBlur"
+                        min="0"
+                        max="100"
+                        step="1"
+                        value="10"
+                    />
+                </div>
+                <div class="pos-row">
+                    <div class="pos-field">
+                        <span>Offset X</span
+                        ><input type="number" id="shadowX" value="0" step="1" />
+                    </div>
+                    <div class="pos-field">
+                        <span>Offset Y</span
+                        ><input type="number" id="shadowY" value="8" step="1" />
+                    </div>
+                    <div class="drag-handle" id="shadowDragHandle">✥</div>
+                </div>
+            </div>
+
+            <!-- Wheel -->
+            <hr class="divider" />
+            <h3>STEERING WHEEL</h3>
+            <div style="height: 8px"></div>
+            <div class="checkbox-row">
+                <input type="checkbox" id="wheelEnabled" />
+                <label for="wheelEnabled" style="cursor: pointer; margin: 0"
+                    >Show Steering Wheel</label
+                >
+            </div>
+            <div id="wheelControls" class="hidden">
+                <div class="select-row">
+                    <select id="wheelType">
+                        <option value="black">Black</option>
+                        <option value="brown">Brown (Wood)</option>
+                        <option value="cream">Cream</option>
+                        <option value="silver">Silver</option>
+                    </select>
+                    <div class="drag-handle" id="wheelDragHandle">✥</div>
+                </div>
+                <div class="slider-row">
+                    <div class="slider-header">
+                        <span class="slider-label">Size</span>
+                        <input
+                            class="slider-number"
+                            type="number"
+                            id="wheelSizeNum"
+                            value="300"
+                            min="100"
+                            max="2000"
+                        />
+                        <span class="slider-unit">px</span>
+                    </div>
+                    <input
+                        type="range"
+                        id="wheelSize"
+                        min="100"
+                        max="2000"
+                        step="10"
+                        value="300"
+                    />
+                </div>
+                <div class="pos-row">
+                    <div class="pos-field">
+                        <span>Offset X</span
+                        ><input type="number" id="wheelX" value="0" step="1" />
+                    </div>
+                    <div class="pos-field">
+                        <span>Offset Y</span
+                        ><input type="number" id="wheelY" value="0" step="1" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            // ── State ────────────────────────────────────
+            var hasBezel = false;
+            var presets = [];
+            var selectedPreset = { withBezel: null, noBezel: null };
+
+            var PRESET_CFG = {
+                withBezel: {
+                    sel: "presetSelect",
+                    status: "presetStatus",
+                    apply: "applyBtn",
+                    del: "deletePresetBtn",
+                    popup: "applyPopup",
+                    radio: "applyMode",
+                    confirm: "applyConfirm",
+                },
+                noBezel: {
+                    sel: "presetSelectNB",
+                    status: "presetStatusNB",
+                    apply: "applyBtnNB",
+                    del: "deletePresetBtnNB",
+                    popup: "applyPopupNB",
+                    radio: "applyModeNB",
+                    confirm: "applyConfirmNB",
+                },
+            };
+
+            // ── Helpers ──────────────────────────────────
+            function post(msg) {
+                parent.postMessage({ pluginMessage: msg }, "*");
+            }
+            function $(id) {
+                return document.getElementById(id);
+            }
+            function setVal(sliderId, numId, val) {
+                $(sliderId).value = val;
+                $(numId).value = val;
+            }
+            function getBezelValues() {
+                return {
+                    strokeWeight: parseFloat($("strokeWeight").value),
+                    cornerRadius: parseFloat($("cornerRadius").value),
+                };
+            }
+            function toggle(el, show) {
+                if (typeof el === "string") el = $(el);
+                el.classList.toggle("hidden", !show);
+            }
+
+            // ── Resize ───────────────────────────────────
+            function resizeToContent() {
+                var h;
+                if (!hasBezel) {
+                    h = presets.length > 0 ? 380 : 280;
+                } else {
+                    var shadowOn = $("shadowEnabled").checked;
+                    var wheelOn = $("wheelEnabled").checked;
+                    if (shadowOn && wheelOn) h = 960;
+                    else if (shadowOn || wheelOn) h = 740;
+                    else h = 520;
+                }
+                post({ type: "resize", height: h });
+            }
+
+            // ── Slider linking ───────────────────────────
+            function linkSlider(sliderId, numId, onChange) {
+                var slider = $(sliderId),
+                    num = $(numId);
+                slider.addEventListener("input", function () {
+                    num.value = slider.value;
+                    onChange();
+                });
+                num.addEventListener("change", function () {
+                    var val = Math.min(
+                        Math.max(
+                            parseFloat(num.value) || parseFloat(slider.min),
+                            parseFloat(slider.min),
+                        ),
+                        parseFloat(slider.max),
+                    );
+                    num.value = val;
+                    slider.value = val;
+                    onChange();
+                });
+            }
+
+            function sendBezelUpdate() {
+                if (!hasBezel) return;
+                var v = getBezelValues();
+                post({
+                    type: "update",
+                    strokeWeight: v.strokeWeight,
+                    cornerRadius: v.cornerRadius,
+                });
+            }
+
+            function sendShadowUpdate() {
+                post({
+                    type: "shadowUpdate",
+                    enabled: $("shadowEnabled").checked,
+                    opacity: parseFloat($("shadowOpacity").value),
+                    blur: parseFloat($("shadowBlur").value),
+                    offsetX: parseFloat($("shadowX").value) || 0,
+                    offsetY: parseFloat($("shadowY").value) || 0,
+                });
+            }
+
+            function sendWheelUpdate() {
+                post({
+                    type: "wheelUpdate",
+                    wheelType: $("wheelType").value,
+                    wheelSize: parseFloat($("wheelSize").value),
+                    wheelX: parseFloat($("wheelX").value) || 0,
+                    wheelY: parseFloat($("wheelY").value) || 0,
+                });
+            }
+
+            linkSlider("strokeWeight", "strokeWeightNum", sendBezelUpdate);
+            linkSlider("cornerRadius", "cornerRadiusNum", sendBezelUpdate);
+            linkSlider("shadowOpacity", "shadowOpacityNum", sendShadowUpdate);
+            linkSlider("shadowBlur", "shadowBlurNum", sendShadowUpdate);
+            linkSlider("wheelSize", "wheelSizeNum", function () {
+                if ($("wheelEnabled").checked) sendWheelUpdate();
+            });
+
+            // ── Preset rendering ─────────────────────────
+            function syncPresetUI(cfg, preset) {
+                if (preset) {
+                    $(cfg.sel).value = preset.name;
+                    $(cfg.status).textContent =
+                        '✦ Preset "' + preset.name + '" selected';
+                    $(cfg.apply).disabled = false;
+                    $(cfg.del).disabled = false;
+                } else {
+                    $(cfg.sel).value = "";
+                    $(cfg.status).textContent = "";
+                    $(cfg.apply).disabled = true;
+                    $(cfg.del).disabled = true;
+                }
+            }
+
+            function renderPresets(list) {
+                presets = list;
+
+                ["presetSelect", "presetSelectNB"].forEach(function (id) {
+                    var sel = $(id);
+                    sel.innerHTML =
+                        '<option value="" disabled>— select a preset —</option>';
+                    list.forEach(function (p) {
+                        var opt = document.createElement("option");
+                        opt.value = p.name;
+                        opt.textContent =
+                            p.name +
+                            "   SW:" +
+                            p.strokeWeight +
+                            "  CR:" +
+                            p.cornerRadius;
+                        sel.appendChild(opt);
+                    });
+                });
+
+                var dl = $("presetDatalist");
+                dl.innerHTML = "";
+                list.forEach(function (p) {
+                    var opt = document.createElement("option");
+                    opt.value = p.name;
+                    dl.appendChild(opt);
+                });
+
+                ["withBezel", "noBezel"].forEach(function (key) {
+                    if (!selectedPreset[key]) return;
+                    var found = list.find(function (p) {
+                        return p.name === selectedPreset[key].name;
+                    });
+                    selectedPreset[key] = found || null;
+                    syncPresetUI(PRESET_CFG[key], selectedPreset[key]);
+                });
+            }
+
+            function showApplyStatus(statusId, name, mode) {
+                $(statusId).textContent =
+                    '✅ "' +
+                    name +
+                    '" applied (' +
+                    (mode === "scale" ? "scaled" : "absolute") +
+                    ")";
+                setTimeout(function () {
+                    $(statusId).textContent =
+                        '✦ Preset "' + name + '" selected';
+                }, 2000);
+            }
+
+            // ── Preset event wiring ──────────────────────
+            ["withBezel", "noBezel"].forEach(function (key) {
+                var cfg = PRESET_CFG[key];
+                var isWithBezel = key === "withBezel";
+
+                $(cfg.sel).addEventListener("change", function () {
+                    selectedPreset[key] =
+                        presets.find(function (p) {
+                            return p.name === this.value;
+                        }, this) || null;
+                    syncPresetUI(cfg, selectedPreset[key]);
+                    $(cfg.popup).classList.remove("open");
+                });
+
+                $(cfg.del).addEventListener("click", function () {
+                    if (!selectedPreset[key]) return;
+                    post({
+                        type: "presetDelete",
+                        name: selectedPreset[key].name,
+                    });
+                    selectedPreset[key] = null;
+                    syncPresetUI(cfg, null);
+                });
+
+                $(cfg.apply).addEventListener("click", function (e) {
+                    e.stopPropagation();
+                    $(cfg.popup).classList.toggle("open");
+                });
+                $(cfg.popup).addEventListener("click", function (e) {
+                    e.stopPropagation();
+                });
+
+                $(cfg.confirm).addEventListener("click", function () {
+                    $(cfg.popup).classList.remove("open");
+                    var mode = document.querySelector(
+                        'input[name="' + cfg.radio + '"]:checked',
+                    ).value;
+                    doApplyPreset(
+                        selectedPreset[key],
+                        mode,
+                        cfg.status,
+                        isWithBezel,
+                    );
+                });
+            });
+
+            document.addEventListener("click", function () {
+                $(PRESET_CFG.withBezel.popup).classList.remove("open");
+                $(PRESET_CFG.noBezel.popup).classList.remove("open");
+            });
+
+            // ── Apply preset ─────────────────────────────
+            function doApplyPreset(preset, mode, statusId, withBezel) {
+                if (!preset) return;
+                showApplyStatus(statusId, preset.name, mode);
+
+                if (mode === "scale") {
+                    post({
+                        type: "presetApply",
+                        strokeWeight: preset.strokeWeight,
+                        cornerRadius: preset.cornerRadius,
+                        scaleMode: "scale",
+                        refWidth: preset.refWidth || 100,
+                        refHeight: preset.refHeight || 100,
+                    });
+                } else {
+                    setVal(
+                        "strokeWeight",
+                        "strokeWeightNum",
+                        preset.strokeWeight,
+                    );
+                    setVal(
+                        "cornerRadius",
+                        "cornerRadiusNum",
+                        preset.cornerRadius,
+                    );
+                    if (withBezel) {
+                        sendBezelUpdate();
+                    } else {
+                        post({
+                            type: "create",
+                            strokeWeight: preset.strokeWeight,
+                            cornerRadius: preset.cornerRadius,
+                        });
+                    }
+                }
+            }
+
+            // ── Save preset ──────────────────────────────
+            $("savePresetBtn").addEventListener("click", function () {
+                var name = $("presetName").value.trim();
+                if (!name) {
+                    alert("Please enter a preset name.");
+                    return;
+                }
+                var v = getBezelValues();
+                post({
+                    type: "presetSave",
+                    name: name,
+                    strokeWeight: v.strokeWeight,
+                    cornerRadius: v.cornerRadius,
+                });
+            });
+
+            // ── Create / Delete bezel ────────────────────
+            $("createBtn").addEventListener("click", function () {
+                var v = getBezelValues();
+                post({
+                    type: "create",
+                    strokeWeight: v.strokeWeight,
+                    cornerRadius: v.cornerRadius,
+                });
+            });
+
+            $("deleteBezelBtn").addEventListener("click", function () {
+                setCreateMode();
+                post({ type: "delete" });
+            });
+
+            // ── Shadow ───────────────────────────────────
+            $("shadowEnabled").addEventListener("change", function () {
+                toggle("shadowControls", this.checked);
+                sendShadowUpdate();
+                resizeToContent();
+            });
+            $("shadowX").addEventListener("input", sendShadowUpdate);
+            $("shadowY").addEventListener("input", sendShadowUpdate);
+
+            // ── Wheel ────────────────────────────────────
+            $("wheelEnabled").addEventListener("change", function () {
+                toggle("wheelControls", this.checked);
+                if (this.checked) {
+                    post({
+                        type: "wheelCreate",
+                        wheelType: $("wheelType").value,
+                        wheelSize: parseFloat($("wheelSize").value),
+                        wheelX: 0,
+                        wheelY: 0,
+                    });
+                } else {
+                    post({ type: "wheelDelete" });
+                }
+                resizeToContent();
+            });
+            $("wheelType").addEventListener("change", function () {
+                if ($("wheelEnabled").checked) sendWheelUpdate();
+            });
+            $("wheelX").addEventListener("input", function () {
+                if ($("wheelEnabled").checked) sendWheelUpdate();
+            });
+            $("wheelY").addEventListener("input", function () {
+                if ($("wheelEnabled").checked) sendWheelUpdate();
+            });
+
+            // ── Drag ─────────────────────────────────────
+            var drag = {
+                active: false,
+                target: null,
+                startX: 0,
+                startY: 0,
+                startOffX: 0,
+                startOffY: 0,
+            };
+
+            function initDrag(handleId, xId, yId, cb) {
+                $(handleId).addEventListener("mousedown", function (e) {
+                    drag = {
+                        active: true,
+                        target: { xId: xId, yId: yId, cb: cb },
+                        startX: e.clientX,
+                        startY: e.clientY,
+                        startOffX: parseFloat($(xId).value) || 0,
+                        startOffY: parseFloat($(yId).value) || 0,
+                    };
+                    e.preventDefault();
+                });
+            }
+            initDrag(
+                "shadowDragHandle",
+                "shadowX",
+                "shadowY",
+                sendShadowUpdate,
+            );
+            initDrag("wheelDragHandle", "wheelX", "wheelY", sendWheelUpdate);
+
+            document.addEventListener("mousemove", function (e) {
+                if (!drag.active) return;
+                $(drag.target.xId).value = Math.round(
+                    drag.startOffX + (e.clientX - drag.startX) * 2,
+                );
+                $(drag.target.yId).value = Math.round(
+                    drag.startOffY + (e.clientY - drag.startY) * 2,
+                );
+                drag.target.cb();
+            });
+            document.addEventListener("mouseup", function () {
+                drag.active = false;
+            });
+
+            // ── Mode transitions ─────────────────────────
+            function resetUIState() {
+                hasBezel = false;
+                selectedPreset.withBezel = null;
+                selectedPreset.noBezel = null;
+                $(PRESET_CFG.withBezel.popup).classList.remove("open");
+                $(PRESET_CFG.noBezel.popup).classList.remove("open");
+                toggle("bezelSection", false);
+                $("shadowEnabled").checked = false;
+                toggle("shadowControls", false);
+                $("wheelEnabled").checked = false;
+                toggle("wheelControls", false);
+            }
+
+            function setNoSelectionMode() {
+                resetUIState();
+                toggle("noBezelSection", true);
+                toggle("presetApplySection", false);
+                $("createBtn").disabled = true;
+                $("createBtn").textContent = "Select an image";
+                $("status").textContent = "Select an image layer";
+                resizeToContent();
+            }
+
+            function setCreateMode() {
+                resetUIState();
+                syncPresetUI(PRESET_CFG.noBezel, null);
+                toggle("noBezelSection", true);
+                $("createBtn").disabled = false;
+                $("createBtn").textContent = "Create Bezel";
+                $("status").textContent = "✦ Image selected";
+                toggle("presetApplySection", presets.length > 0);
+                resizeToContent();
+            }
+
+            function setUpdateMode() {
+                hasBezel = true;
+                $(PRESET_CFG.withBezel.popup).classList.remove("open");
+                $(PRESET_CFG.noBezel.popup).classList.remove("open");
+                toggle("noBezelSection", false);
+                toggle("bezelSection", true);
+                toggle("presetApplySection", false);
+                $("status").textContent =
+                    "✦ Bezel detected — adjust sliders to edit";
+                post({ type: "presetLoad" });
+            }
+
+            // ── Message handler ──────────────────────────
+            window.onmessage = function (e) {
+                var msg = e.data.pluginMessage;
+                if (!msg) return;
+
+                if (msg.type === "init") {
+                    selectedPreset.withBezel = null;
+                    selectedPreset.noBezel = null;
+                    setVal("strokeWeight", "strokeWeightNum", msg.strokeWeight);
+                    setVal("cornerRadius", "cornerRadiusNum", msg.cornerRadius);
+
+                    if (msg.hasBezel) {
+                        setUpdateMode();
+                        $("shadowEnabled").checked = !!msg.shadowEnabled;
+                        toggle("shadowControls", !!msg.shadowEnabled);
+                        if (msg.shadowEnabled) {
+                            setVal(
+                                "shadowOpacity",
+                                "shadowOpacityNum",
+                                msg.shadowOpacity || 50,
+                            );
+                            setVal(
+                                "shadowBlur",
+                                "shadowBlurNum",
+                                msg.shadowBlur || 10,
+                            );
+                            $("shadowX").value = msg.shadowX || 0;
+                            $("shadowY").value = msg.shadowY || 8;
+                        }
+                        $("wheelEnabled").checked = !!msg.wheelEnabled;
+                        toggle("wheelControls", !!msg.wheelEnabled);
+                        if (msg.wheelEnabled) {
+                            $("wheelType").value = msg.wheelType || "black";
+                            setVal(
+                                "wheelSize",
+                                "wheelSizeNum",
+                                msg.wheelSize || 300,
+                            );
+                            $("wheelX").value = msg.wheelX || 0;
+                            $("wheelY").value = msg.wheelY || 0;
+                        }
+                        resizeToContent();
+                    } else {
+                        if (msg.presets && msg.presets.length > 0)
+                            renderPresets(msg.presets);
+                        setCreateMode();
+                    }
+                }
+
+                if (msg.type === "noSelection") setNoSelectionMode();
+                if (msg.type === "bezelCreated") {
+                    setUpdateMode();
+                    resizeToContent();
+                }
+                if (msg.type === "bezelLost") setCreateMode();
+
+                if (msg.type === "presetsLoaded") {
+                    renderPresets(msg.presets);
+                    if (!hasBezel) {
+                        toggle("presetApplySection", msg.presets.length > 0);
+                        resizeToContent();
+                    }
+                }
+
+                if (msg.type === "presetApplied") {
+                    setVal("strokeWeight", "strokeWeightNum", msg.strokeWeight);
+                    setVal("cornerRadius", "cornerRadiusNum", msg.cornerRadius);
+                    if (hasBezel) sendBezelUpdate();
+                    else
+                        post({
+                            type: "create",
+                            strokeWeight: msg.strokeWeight,
+                            cornerRadius: msg.cornerRadius,
+                        });
+                }
+            };
+        </script>
+    </body>
+</html>
