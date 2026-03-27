@@ -1,6 +1,7 @@
-# maritime-plugin
+A Figma plugin that generates device bezels around images, frames, and vector objects.
+Adjust stroke weight and corner radius, add shadows, and overlay a steering wheel graphic — all in real-time.
 
-mockup image generator plugin
+---
 
 ## Installation
 
